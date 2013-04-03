@@ -8,6 +8,7 @@ This work was done using Web2py v 2.4.5
 IMPORTANT: I recommend you working with virtualenv to give you more freedom. It's not required, but strongly recommended.
 
 The very basic procedure is:
+
 1. create a new virtualenv. Let's call it web2py.test
 1. cd web2py.test
 1. source bin/activate

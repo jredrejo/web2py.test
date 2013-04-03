@@ -5,7 +5,7 @@ I use py.test [1] to test this application, but the concept can be applied in un
 
 This work was done using Web2py v 2.4.5
 
-IMPORTANT: I recommend you work with virtualenv to give you more freedom. It's not required, but highly recommended.
+IMPORTANT: I recommend you working with virtualenv to give you more freedom. It's not required, but highly recommended.
 
 The very basic procedure is:
 # create a new virtualenv (optional, but highly recommended). Let's call it web2py.test
@@ -20,11 +20,11 @@ The very basic procedure is:
 # voilà!
 
 
-To understand the mechanism used to allow run tests, refer to web2py/applications/people/tests/conftest.py
+To understand the method used to allow run tests, refer to web2py/applications/people/tests/conftest.py
 
 Read web2py/applications/people/models/db.py to see how to make your application know she is running under the test environment.
 
-Test cases are in web2py/applications/people/tests/controllers and global_functions dir.
+Test cases are in web2py/applications/people/tests subdirs.
 
 
 Links used in this doc:

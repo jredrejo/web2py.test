@@ -7,17 +7,18 @@ This work was done using Web2py v 2.4.5
 
 IMPORTANT: I recommend you working with virtualenv to give you more freedom. It's not required, but strongly recommended.
 
-The very basic procedure is:
+The procedure to run tests present for this application is:
 
 1. create a new virtualenv. Let's call it web2py.test
-1. cd web2py.test
-1. source bin/activate
-1. pip install pytest (it will install py.test just in your virtualenv)
+1. $ cd web2py.test
+1. $ source bin/activate
+1. $ pip install pytest (it will install py.test just in your virtualenv)
 1. download web2py stable [2]
 1. unzip web2py to your web2py.test/web2py dir
 1. clone this repo to web2py.test/web2py/applications/people subdir
-1. cd web2py (you must be in web2py root directory to run tests)
-1. py.test -x -v -s applications/people/tests
+1. $ cd web2py (you must be in web2py root directory to run tests)
+1. $ python web2py.py -a my_password --nogui &
+1. $ py.test -x -v -s applications/people/tests
 
 Voilà!
 

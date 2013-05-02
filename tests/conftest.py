@@ -95,7 +95,7 @@ def client(baseurl, fixture_create_testfile_to_application):
     return webclient
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture()
 def web2py(appname, fixture_create_testfile_to_application):
     '''Create a Web2py environment similar to that achieved by
     Web2py shell.

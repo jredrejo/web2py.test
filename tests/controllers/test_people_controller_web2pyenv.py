@@ -47,7 +47,7 @@ def test_new_person_with_form(web2py):
     # <textarea...>, etc.
 
 
-def test_validate_new_person(client, web2py):
+def test_validate_new_person(web2py):
     '''Is the form validating?
     '''
 

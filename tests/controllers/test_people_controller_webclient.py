@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
 '''py.test test cases to test people application.
+
+These tests run based on webclient and need web2py server running.
+
+If you want to see a faster approach, see test_people_controller_web2pyenv.py
+in this same directory.
 '''
 
 

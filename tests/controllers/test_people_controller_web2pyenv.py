@@ -6,6 +6,9 @@ These tests run simulating web2py shell environment and don't use webclient
 module.
 
 So, they run faster and don't need web2py server running.
+
+If you want to see webclient approach, see test_people_controller_webclient.py
+in this same directory.
 '''
 
 

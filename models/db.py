@@ -4,7 +4,7 @@
 # simply using the /dev/shm directory.
 # There's no doubt a ramdisk is much faster than your harddisk, but use it
 # carefully if you don't have enough memory.
-temp_dir = '/dev/shm' # Ubuntu's native ramdisk is faster
+temp_dir = '/dev/shm/'+request.application # Ubuntu's native ramdisk is faster
 #temp_dir = '/tmp'
 
 

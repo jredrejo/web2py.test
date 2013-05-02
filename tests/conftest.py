@@ -55,8 +55,11 @@ def fixture_create_testfile_to_application(request, appname):
     # simply using the /dev/shm directory.
     # There's no doubt a ramdisk is much faster than your harddisk, but use it
     # carefully if you don't have enough memory.
-    temp_dir = '/dev/shm' # Ubuntu's native ramdisk is faster
+    temp_dir = '/dev/shm/'+appname # Ubuntu's native ramdisk is faster
     #temp_dir = '/tmp'
+
+    import os
+    os.mkdir(temp_dir)
 
     # IMPORTANT: the temp_filename variable must have the same value as set in
     # your app/models/db.py file.
@@ -66,7 +69,9 @@ def fixture_create_testfile_to_application(request, appname):
         tempfile.write('aplicacao %s rodando em modo de teste' % appname)
 
     def _apaga_tempfile_que_identifica_o_teste():
-        os.remove(temp_filename)
+        import shutil
+        shutil.rmtree(temp_dir)
+        #os.remove(temp_filename)
     request.addfinalizer(_apaga_tempfile_que_identifica_o_teste)
 
 

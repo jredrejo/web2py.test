@@ -80,6 +80,7 @@ def fixture_cleanup_db(web2py):
     Automatically called by test.py due to decorator.
     '''
 
+    web2py.db.rollback()
     for tab in web2py.db.tables:
         web2py.db[tab].truncate()
     web2py.db.commit()

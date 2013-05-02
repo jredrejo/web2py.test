@@ -10,6 +10,7 @@ def new_person():
                    fields='name phone'.split())
     if form.process(formname='new_person_form'):
         session.flash = T('New person saved')
+        db.commit() # need to avoid db locking in tests.
     return dict(form=form)
 
 

@@ -10,19 +10,19 @@ in this same directory.
 
 
 def test_index_exists(client):
-    '''Page index exists?
+    '''page index exists?
     '''
 
-    client.get('people/index') # get a page
+    client.get('/people/index') # get a page
     assert client.status == 200
-    assert "Hi. I'm the people index" in client.text
+    assert "hi. i'm the people index" in client.text.lower()
 
 
 def test_new_person_with_form(client):
     '''Is this function showing the right form?
     '''
 
-    client.get('people/new_person')
+    client.get('/people/new_person')
     assert 'new_person_form' in client.forms
     assert 'name="name"' in client.text
     assert 'name="phone"' in client.text
@@ -41,7 +41,7 @@ def test_validate_new_person(client, web2py):
     data = dict(name='',
                 phone='',
                 _formname='new_person_form')
-    client.post('people/new_person', data=data) # post data
+    client.post('/people/new_person', data=data) # post data
     assert client.status == 200
 
     assert 'name__error' in client.text
@@ -59,7 +59,7 @@ def test_save_new_person(client, web2py):
     data = dict(name='Homer Simpson',
                 phone='9988-7766',
                 _formname='new_person_form')
-    client.post('people/new_person', data=data)
+    client.post('/people/new_person', data=data)
     assert client.status == 200
 
     assert 'New person saved' in client.text
@@ -85,7 +85,7 @@ def test_get_person_by_creation_date(client, web2py):
     web2py.db.people.insert(**data) # insert my controlled person
     web2py.db.commit()
 
-    client.get('people/get_by_creation_date.json/' +
+    client.get('/people/get_by_creation_date.json/' +
             data['created_at'].split()[0])
     assert client.status == 200
     assert 'application/json' in client.headers['content-type']

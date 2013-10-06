@@ -51,28 +51,10 @@ def fixture_create_testfile_to_application(request, appname):
     no overhad to test performance.
     '''
 
-    # note: if you use Ubuntu, you can allocate your test database on ramdisk
-    # simply using the /dev/shm directory.
-    # There's no doubt a ramdisk is much faster than your harddisk, but use it
-    # carefully if you don't have enough memory.
-    temp_dir = '/dev/shm/'+appname # Ubuntu's native ramdisk is faster
-    #temp_dir = '/tmp'
+    from ..modules import web2pytest
+    web2pytest.create_testfile()
 
-    import os
-    os.mkdir(temp_dir)
-
-    # IMPORTANT: the temp_filename variable must have the same value as set in
-    # your app/models/db.py file.
-    temp_filename = '%s/tests_%s.tmp' % (temp_dir, appname)
-
-    with open(temp_filename, 'w+') as tempfile:
-        tempfile.write('application %s running in test mode.' % appname)
-
-    def _delete_test_tempfile():
-        import shutil
-        shutil.rmtree(temp_dir)
-        #os.remove(temp_filename)
-    request.addfinalizer(_delete_test_tempfile)
+    request.addfinalizer(web2pytest.delete_testfile)
 
 
 @pytest.fixture(autouse=True)

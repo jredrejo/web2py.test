@@ -25,24 +25,30 @@ default_filename = "web2py_test_indicator"
 _test_filename = None
 
 
-def testfile_name(path=None, filename=None):
+def testfile_name(appname=None):
     global _test_filename
-    if _test_filename and not (path or filename):
+    if _test_filename:
         return _test_filename
 
-    path = path if path is not None else default_path
-    filename = filename if filename is not None else default_filename
-    _test_filename = os.path.join(path, filename)
+    path = os.path.join(default_path, appname)
+    _test_filename = os.path.join(path, default_filename)
 
     return _test_filename
 
 
-def create_testfile(path=None, filename=None):
+def create_testfile(appname):
     """Creates a temp file to tell application she's running under a
     test environment.
     """
 
-    fname = testfile_name(path, filename)
+    fname = testfile_name(appname)
+
+    try:
+        # remove previous test data
+        import shutil
+        shutil.rmtree(os.path.dirname(fname))
+    except OSError as e:
+        pass
 
     try:
         os.mkdir(os.path.dirname(fname))
@@ -65,8 +71,8 @@ def delete_testfile():
         return False
 
 
-def testfile_exists(path=None, filename=None):
-    fname = testfile_name(path, filename)
+def testfile_exists(appname):
+    fname = testfile_name(appname)
 
     try:
         if glob.glob(fname):
@@ -77,10 +83,8 @@ def testfile_exists(path=None, filename=None):
         return False
 
 
-def is_running_under_test(request=None):
-    request = request if request is not None else {}
-
-    if request.get('_running_under_test') or testfile_exists():
+def is_running_under_test(request, appname):
+    if request.get('_running_under_test') or testfile_exists(appname):
         return True
     else:
         return False

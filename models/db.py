@@ -1,34 +1,20 @@
 # -*- coding: utf-8 -*-
 
-# note: if you use Ubuntu, you can allocate your test database on ramdisk
-# simply using the /dev/shm directory.
-# There's no doubt a ramdisk is much faster than your harddisk, but use it
-# carefully if you don't have enough memory.
-temp_dir = '/dev/shm/'+request.application # Ubuntu's native ramdisk is faster
-#temp_dir = '/tmp'
+import web2pytest
+import os
 
 
 def _i_am_running_under_tests():
-    '''Check if Web2py is running under a test environment.
-    '''
-
-    test_running = False
-    if request.is_local:
-        # IMPORTANT: the temp_filename variable must be the same as the one set
-        # on your tests/conftest.py file.
-        temp_filename = '%s/tests_%s.tmp' % (temp_dir, request.application)
-
-        import glob
-        if glob.glob(temp_filename):
-            test_running = True
-
-    return test_running
+    """Check if Web2py is running under a test environment.
+    """
+    return request.is_local and web2pytest.testfile_exists()
 
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     if _i_am_running_under_tests():
-        db = DAL('sqlite://test_storage.sqlite', folder=temp_dir)
+        db = DAL('sqlite://%s_storage.sqlite' % request.application,
+                folder=os.path.dirname(web2pytest.testfile_name()))
     else:
         db = DAL('sqlite://storage.sqlite', pool_size=1, check_reserved=['all'])
 else:

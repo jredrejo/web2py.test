@@ -15,29 +15,63 @@ Note: if you don't use webclient interface to run your tests, you don't
 need to use this module.
 """
 
+import glob
 import os
 
-#default_dirname = "/tmp"
-default_dirname = "/dev/shm/web2py_test" # Ubuntu native ramdisk is faster
+#default_path = "/tmp"
+default_path = "/dev/shm/web2py_test" # Ubuntu native ramdisk is faster
 default_filename = "web2py_test_indicator"
 
-test_filename = None
+_test_filename = None
 
 
-def create_testfile(dirname=None, filename=None):
+def testfile_name(path=None, filename=None):
+    global _test_filename
+    if _test_filename and not (path or filename):
+        return _test_filename
+
+    path = path if path is not None else default_path
+    filename = filename if filename is not None else default_filename
+    _test_filename = os.path.join(path, filename)
+
+    return _test_filename
+
+
+def create_testfile(path=None, filename=None):
     """Creates a temp file to tell application she's running under a
     test environment.
     """
 
-    dirname = dirname or default_dirname
-    filename = filename or default_filename
-    test_filename = "%s/%s.tmp" % (dirname, filename)
+    fname = testfile_name(path, filename)
 
-    os.mkdir(dirname)
+    try:
+        os.mkdir(os.path.dirname(fname))
+    except OSError as e:
+        pass
 
-    with open(test_filename, "w+") as f:
-        f.write("web2py running in test mode.")
+    try:
+        with open(fname, "w+") as f:
+            f.write("web2py running in test mode.")
+        return True
+    except:
+        return False
 
 
 def delete_testfile():
-    os.remove(test_filename)
+    try:
+        os.remove(testfile_name())
+        return True
+    except:
+        return False
+
+
+def testfile_exists(path=None, filename=None):
+    fname = testfile_name(path, filename)
+
+    try:
+        if glob.glob(fname):
+            return True
+        else:
+            return False
+    except:
+        return False

@@ -66,13 +66,13 @@ def fixture_create_testfile_to_application(request, appname):
     temp_filename = '%s/tests_%s.tmp' % (temp_dir, appname)
 
     with open(temp_filename, 'w+') as tempfile:
-        tempfile.write('aplicacao %s rodando em modo de teste' % appname)
+        tempfile.write('application %s running in test mode.' % appname)
 
-    def _apaga_tempfile_que_identifica_o_teste():
+    def _delete_test_tempfile():
         import shutil
         shutil.rmtree(temp_dir)
         #os.remove(temp_filename)
-    request.addfinalizer(_apaga_tempfile_que_identifica_o_teste)
+    request.addfinalizer(_delete_test_tempfile)
 
 
 @pytest.fixture(autouse=True)

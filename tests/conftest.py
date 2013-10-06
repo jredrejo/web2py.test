@@ -92,7 +92,7 @@ def fixture_cleanup_db(web2py):
 
 
 @pytest.fixture(scope='module')
-def client(baseurl, fixture_create_testfile_to_application):
+def client(baseurl):
     '''Create a new WebClient instance once per module.
     '''
 
@@ -102,7 +102,7 @@ def client(baseurl, fixture_create_testfile_to_application):
 
 
 @pytest.fixture()
-def web2py(appname, fixture_create_testfile_to_application):
+def web2py(appname):
     '''Create a Web2py environment similar to that achieved by
     Web2py shell.
 

@@ -100,11 +100,10 @@ def web2py(appname):
     from gluon.storage import Storage
 
     web2py_env = env(appname, import_models=True,
-                     extra_request=dict(is_local=True))
+                     extra_request=dict(is_local=True,
+                                        _running_under_test=True))
 
-    # Uncomment next 2 lines to allow using global Web2py objects directly
-    # in your test scripts.
-    # del web2py_env['__file__']  # avoid py.test import error
-    # globals().update(web2py_env)
+    del web2py_env['__file__']  # avoid py.test import error
+    globals().update(web2py_env)
 
     return Storage(web2py_env)

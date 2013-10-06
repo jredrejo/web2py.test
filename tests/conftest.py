@@ -16,9 +16,9 @@ import sys
 
 sys.path.insert(0, '')
 
-RUNNING_CLIENT_TEST = False
+# RUNNING_CLIENT_TEST = False
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def baseurl(appname):
     '''The base url to call your application.
 
@@ -28,7 +28,7 @@ def baseurl(appname):
     return 'http://localhost:8000/%s' % appname
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def appname():
     '''Discover application name.
 
@@ -40,20 +40,19 @@ def appname():
     return appname
 
 
-# @pytest.fixture(scope='module', autouse=True)
-@pytest.fixture(scope='module')
-def fixture_create_testfile_to_application(request, appname):
+@pytest.fixture(scope='session', autouse=True)
+def fixture_create_testfile_to_application(request):
     '''Creates a temp file to tell application she's running under a
     test environment.
 
     Usually you will want to create your database in memory to speed up
     your tests and not change your development database.
 
-    This fixture is automatically run by py.test at module level. So, there's
+    This fixture is automatically run by py.test at session level. So, there's
     no overhad to test performance.
     '''
 
-    from ..modules import web2pytest
+    from ..modules.web2pytest import web2pytest
     web2pytest.create_testfile()
 
     request.addfinalizer(web2pytest.delete_testfile)
@@ -69,8 +68,8 @@ def fixture_cleanup_db(web2py):
     Automatically called by test.py due to decorator.
     '''
 
-    if not RUNNING_CLIENT_TEST:
-        return
+    # if not RUNNING_CLIENT_TEST:
+    #     return
 
     web2py.db.rollback()
     for tab in web2py.db.tables:
@@ -78,12 +77,12 @@ def fixture_cleanup_db(web2py):
     web2py.db.commit()
 
 
-@pytest.fixture(scope='module')
-def client(baseurl, fixture_create_testfile_to_application):
-    '''Create a new WebClient instance once per module.
+@pytest.fixture(scope='session')
+def client(baseurl):
+    '''Create a new WebClient instance once per session.
     '''
 
-    RUNNING_CLIENT_TEST = True
+    # RUNNING_CLIENT_TEST = True
 
     from gluon.contrib.webclient import WebClient
     webclient = WebClient(baseurl)

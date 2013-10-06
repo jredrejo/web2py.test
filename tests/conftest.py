@@ -16,6 +16,7 @@ import sys
 
 sys.path.insert(0, '')
 
+RUNNING_CLIENT_TEST = False
 
 @pytest.fixture(scope='module')
 def baseurl(appname):
@@ -39,7 +40,8 @@ def appname():
     return appname
 
 
-@pytest.fixture(scope='module', autouse=True)
+# @pytest.fixture(scope='module', autouse=True)
+@pytest.fixture(scope='module')
 def fixture_create_testfile_to_application(request, appname):
     '''Creates a temp file to tell application she's running under a
     test environment.
@@ -67,6 +69,9 @@ def fixture_cleanup_db(web2py):
     Automatically called by test.py due to decorator.
     '''
 
+    if not RUNNING_CLIENT_TEST:
+        return
+
     web2py.db.rollback()
     for tab in web2py.db.tables:
         web2py.db[tab].truncate()
@@ -74,9 +79,11 @@ def fixture_cleanup_db(web2py):
 
 
 @pytest.fixture(scope='module')
-def client(baseurl):
+def client(baseurl, fixture_create_testfile_to_application):
     '''Create a new WebClient instance once per module.
     '''
+
+    RUNNING_CLIENT_TEST = True
 
     from gluon.contrib.webclient import WebClient
     webclient = WebClient(baseurl)

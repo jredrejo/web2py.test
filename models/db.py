@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 
-import web2pytest
+from web2pytest import web2pytest
 import os
-
-
-def _i_am_running_under_tests():
-    """Check if Web2py is running under a test environment.
-    """
-    return request.is_local and web2pytest.testfile_exists()
 
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    if _i_am_running_under_tests():
-        db = DAL('sqlite://%s_storage.sqlite' % request.application,
-                folder=os.path.dirname(web2pytest.testfile_name()))
+    if web2pytest.is_running_under_test(request):
+        if web2pytest.is_running_webclient():
+            # When running under webclient, db cannot be ':memory:'
+            # because it is recreated in each request and a webclient test
+            # can make many requests to validate a single scenario.
+            db = DAL('sqlite://%s_storage.sqlite' % request.application,
+                    folder=os.path.dirname(web2pytest.testfile_name()),
+                    pool_size=1,
+                    check_reserved=['all'])
+        else:
+            db = DAL('sqlite:memory:', check_reserved=['all'])
     else:
         db = DAL('sqlite://storage.sqlite', pool_size=1, check_reserved=['all'])
 else:

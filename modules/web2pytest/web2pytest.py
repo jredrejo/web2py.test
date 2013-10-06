@@ -88,6 +88,3 @@ def is_running_under_test(request, appname):
         return True
     else:
         return False
-
-def is_running_webclient():
-    return testfile_exists()

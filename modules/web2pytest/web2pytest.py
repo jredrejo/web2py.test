@@ -10,9 +10,6 @@ execution.
 
 Web2py applications need this external injection mainly to know
 where to create their test database.
-
-Note: if you don't use webclient interface to run your tests, you don't
-need to use this module.
 """
 
 import glob

@@ -3,9 +3,9 @@ An example of how to test an Web2py Application.
 
 I use py.test [1] to test this application, but the concept can be applied in unittest and nose, too.
 
-This work was done using Web2py v 2.4.5
+Tested in Web2py v2.4.5
 
-IMPORTANT: I recommend you working with virtualenv to give you more freedom. It's not required, but strongly recommended.
+IMPORTANT: I recommend you work with virtualenv to give you more freedom. It's not required, but strongly recommended.
 
 The procedure to run tests present for this application is:
 
@@ -27,6 +27,13 @@ To understand the method used to allow run tests, refer to web2py/applications/p
 Read web2py/applications/people/models/db.py to see how to make your application know she is running under the test environment.
 
 Test cases are in web2py/applications/people/tests subdirs.
+
+
+There are 3 important parts in this application:
+
+1. tests/conftest.py -> configure test environment.
+1. modules/web2pytest/web2pytest.py -> test infrastructure.
+1. models/db.py -> ask web2pytest about tests and create db accordingly.
 
 
 Links used in this doc:

@@ -39,7 +39,7 @@ def appname():
 
 
 @pytest.fixture(scope='session', autouse=True)
-def fixture_create_testfile_to_application(request, appname):
+def create_testfile_to_application(request, appname):
     '''Creates a temp file to tell application she's running under a
     test environment.
 
@@ -57,7 +57,7 @@ def fixture_create_testfile_to_application(request, appname):
 
 
 @pytest.fixture(autouse=True)
-def fixture_cleanup_db(web2py):
+def cleanup_db(web2py):
     '''Truncate all database tables before every single test case.
 
     This can really slow down your tests. So, keep your test data small and try

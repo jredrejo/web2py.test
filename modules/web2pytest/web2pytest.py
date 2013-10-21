@@ -48,7 +48,7 @@ def create_testfile(appname):
         pass
 
     try:
-        os.mkdir(os.path.dirname(fname))
+        os.makedirs(os.path.dirname(fname))
     except OSError as e:
         pass
 
@@ -61,11 +61,11 @@ def create_testfile(appname):
 
 
 def delete_testfile():
-    try:
-        os.remove(testfile_name())
-        return True
-    except:
-        return False
+    import shutil
+
+    fname = testfile_name()
+    shutil.rmtree(os.path.dirname(fname))
+    return True
 
 
 def testfile_exists(appname):

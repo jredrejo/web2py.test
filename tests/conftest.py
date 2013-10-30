@@ -95,6 +95,18 @@ def web2py(appname):
     tests.
     '''
 
+    def run(controller, function, env):
+        """Injects request.controller and request.function into
+        web2py environment.
+        """
+
+        from gluon.compileapp import run_controller_in
+
+        env.request.controller = controller
+        env.request.function = function
+        return run_controller_in(controller, function, env)
+
+
     from gluon.shell import env
     from gluon.storage import Storage
 

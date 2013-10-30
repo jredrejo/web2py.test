@@ -104,7 +104,18 @@ def web2py(appname):
 
         env.request.controller = controller
         env.request.function = function
-        return run_controller_in(controller, function, env)
+        r = None
+        try:
+            r =  run_controller_in(controller, function, env)
+        except HTTP as e:
+            if str(e.status).startswith("2") or str(e.status).startswith("3"):
+                env.db.commit()
+            raise
+        else:
+            env.db.commit()
+        finally:
+            env.db.rollback()
+        return r
 
 
     from gluon.shell import env

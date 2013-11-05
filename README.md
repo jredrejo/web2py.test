@@ -19,68 +19,68 @@ The procedure to run tests present for this application is:
 
 1. Create a new virtualenv. Let's call it bla:
 
-    `
-    $ cd ~  
-    $ mkdir -p virtualenvs/bla  
-    $ cd virtualenvs/bla  
-    $ virtualenv .  
-    `
+```
+$ cd ~
+$ mkdir -p virtualenvs/bla
+$ cd virtualenvs/bla
+$ virtualenv .
+```
 
 1. Enter into it:
 
-    `
-    $ source bin/activate
-    `
+```
+$ source bin/activate
+```
 
 1. Now your prompt should look like this:
 
-    `
-    (bla)username@yourmachine:~$
-    `
+```
+(bla)username@yourmachine:~$
+```
 
 1. Install py.test just in your virtualenv:
 
-    `
-    $ pip install pytest
-    `
+```
+$ pip install pytest
+```
 
 1. Download latest web2py stable:
 
-    `
-    $ wget http://www.web2py.com/examples/static/web2py_src.zip
-    `
+```
+$ wget http://www.web2py.com/examples/static/web2py_src.zip
+```
 
 1. Unzip it:
 
-    `
-    $ unzip web2py_src.zip
-    `
+```
+$ unzip web2py_src.zip
+```
 
 1. Now you must see web2py dir created inside your current dir.
 1. Enter into it:
 
-    `
-    $ cd web2py
-    `
+```
+$ cd web2py
+```
 
 1. Get the latest web2py.test:
 
-    `
-    $ git clone https://github.com/viniciusban/web2py.test.git applications/people
-    `
+```
+$ git clone https://github.com/viniciusban/web2py.test.git applications/people
+```
 
 1. You must see the people dir inside your applications directory.
 1. Start Web2py development server:
 
-    `
-    $ python web2py.py -a my_password --nogui &
-    `
+```
+$ python web2py.py -a my_password --nogui &
+```
 
 1. Run tests:
 
-    `
-    $ py.test -x -v -s applications/people/tests
-    `
+```
+$ py.test -x -v -s applications/people/tests
+```
 
 Voilà!
 

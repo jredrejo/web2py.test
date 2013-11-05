@@ -16,10 +16,8 @@ def test_index_exists(web2py):
     '''Page index exists?
     '''
 
-    from gluon.compileapp import run_controller_in
-
     # run the controller, without view
-    result = run_controller_in('people', 'index', web2py)
+    result = web2py.run('people', 'index', web2py)
 
     # now, render the view with context received from controller
     html = web2py.response.render('people/index.html', result)
@@ -30,9 +28,7 @@ def test_new_person_with_form(web2py):
     '''Is this function showing the right form?
     '''
 
-    from gluon.compileapp import run_controller_in
-
-    result = run_controller_in('people', 'new_person', web2py)
+    result = web2py.run('people', 'new_person', web2py)
 
     html = web2py.response.render('people/new_person.html', result)
 
@@ -107,11 +103,9 @@ def test_get_person_by_creation_date(web2py):
     web2py.db.people.insert(**data)  # insert my controlled person
     web2py.db.commit()
 
-    from gluon.compileapp import run_controller_in
-
     web2py.request.args.append(data['created_at'].split()[0])
 
-    result = run_controller_in('people', 'get_by_creation_date', web2py)
+    result = web2py.run('people', 'get_by_creation_date', web2py)
 
     # test controller result
     assert result['name'] == data['name']

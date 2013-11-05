@@ -96,7 +96,7 @@ Read web2py/applications/people/models/db.py to see how to make your application
 Test cases are in web2py/applications/people/tests subdirs.
 
 
-There are 4 important parts in this application:
+There are 3 important parts in this application:
 
 1. tests/conftest.py -> configure test environment.
 1. modules/web2pytest/web2pytest.py -> test infrastructure.

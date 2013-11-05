@@ -126,6 +126,7 @@ def web2py(appname):
                                         _running_under_test=True))
 
     del web2py_env['__file__']  # avoid py.test import error
+    web2py_env['run'] = run
     globals().update(web2py_env)
 
     return Storage(web2py_env)

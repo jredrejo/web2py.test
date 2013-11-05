@@ -51,16 +51,13 @@ def test_validate_new_person(web2py):
     '''Is the form validating?
     '''
 
-    from gluon.compileapp import run_controller_in
-
     data = dict(
         name='',
         phone='',
-        _formname='new_person_form',
     )
 
-    web2py.request.post_vars.update(data)
-    result = run_controller_in('people', 'new_person', web2py)
+    result = _submit_form('people', 'new_person', web2py, data,
+                            formname='new_person_form')
 
     assert result['form'].errors
 
@@ -78,15 +75,13 @@ def test_save_new_person(web2py):
     '''Created a new person?
     '''
 
-    from gluon.compileapp import run_controller_in
-
     data = dict(
         name='Homer Simpson',
         phone='9988-7766',
-        _formname='new_person_form')
+    )
 
-    web2py.request.post_vars.update(data)
-    result = run_controller_in('people', 'new_person', web2py)
+    result = _submit_form('people', 'new_person', web2py, data,
+            formname='new_person_form')
 
     html = web2py.response.render('people/new_person.html', result)
 
@@ -128,3 +123,25 @@ def test_get_person_by_creation_date(web2py):
     person = json.loads(html)
     assert person['name'] == data['name']
     assert person['created_at'] == data['created_at']
+
+
+
+def _submit_form(controller, action, env, data=None, formname=None):
+    """Submits a form, setting _formkey and _formname accordingly.
+
+    env must be the web2py environment fixture.
+    """
+
+    formname = formname or "default"
+
+    hidden = dict(
+        _formkey=action,
+        _formname=formname
+    )
+
+    if data:
+        env.request.post_vars.update(data)
+    env.request.post_vars.update(hidden)
+    env.session["_formkey[%s]" % formname] = [action]
+
+    return env.run(controller, action, env)

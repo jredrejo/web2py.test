@@ -52,7 +52,7 @@ def test_validate_new_person(web2py):
         phone='',
     )
 
-    result = _submit_form('people', 'new_person', web2py, data,
+    result = web2py.submit('people', 'new_person', web2py, data,
                             formname='new_person_form')
 
     assert result['form'].errors
@@ -76,7 +76,7 @@ def test_save_new_person(web2py):
         phone='9988-7766',
     )
 
-    result = _submit_form('people', 'new_person', web2py, data,
+    result = web2py.submit('people', 'new_person', web2py, data,
             formname='new_person_form')
 
     html = web2py.response.render('people/new_person.html', result)
@@ -117,25 +117,3 @@ def test_get_person_by_creation_date(web2py):
     person = json.loads(html)
     assert person['name'] == data['name']
     assert person['created_at'] == data['created_at']
-
-
-
-def _submit_form(controller, action, env, data=None, formname=None):
-    """Submits a form, setting _formkey and _formname accordingly.
-
-    env must be the web2py environment fixture.
-    """
-
-    formname = formname or "default"
-
-    hidden = dict(
-        _formkey=action,
-        _formname=formname
-    )
-
-    if data:
-        env.request.post_vars.update(data)
-    env.request.post_vars.update(hidden)
-    env.session["_formkey[%s]" % formname] = [action]
-
-    return env.run(controller, action, env)

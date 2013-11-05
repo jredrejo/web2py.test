@@ -118,6 +118,27 @@ def web2py(appname):
         return r
 
 
+    def submit(controller, action, env, data=None, formname=None):
+        """Submits a form, setting _formkey and _formname accordingly.
+
+        env must be the web2py environment fixture.
+        """
+
+        formname = formname or "default"
+
+        hidden = dict(
+            _formkey=action,
+            _formname=formname
+        )
+
+        if data:
+            env.request.post_vars.update(data)
+        env.request.post_vars.update(hidden)
+        env.session["_formkey[%s]" % formname] = [action]
+
+        return env.run(controller, action, env)
+
+
     from gluon.shell import env
     from gluon.storage import Storage
 
@@ -127,6 +148,7 @@ def web2py(appname):
 
     del web2py_env['__file__']  # avoid py.test import error
     web2py_env['run'] = run
+    web2py_env['submit'] = submit
     globals().update(web2py_env)
 
     return Storage(web2py_env)

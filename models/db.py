@@ -11,7 +11,7 @@ if not request.env.web2py_runtime_gae:
         # because it is recreated in each request and a webclient test
         # can make many requests to validate a single scenario.
         db = DAL('sqlite://%s.sqlite' % request.application,
-                folder=os.path.dirname(web2pytest.testfile_name()),
+                folder=os.path.dirname(web2pytest.testfile_name(request.application)),
                 pool_size=1,
                 check_reserved=['all'])
     else:

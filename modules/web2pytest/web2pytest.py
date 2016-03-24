@@ -15,8 +15,8 @@ where to create their test database.
 import glob
 import os
 
-#default_path = "/tmp"
-default_path = "/dev/shm/web2py_test" # Ubuntu native ramdisk is faster
+default_path = "/tmp"
+#default_path = "/dev/shm/web2py_test" # Ubuntu native ramdisk is faster
 default_filename = "web2py_test_indicator"
 
 _test_filename = None

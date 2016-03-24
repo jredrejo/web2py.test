@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 def index():
     return dict(message=T("Hi. I'm the people index."))
 
@@ -8,7 +6,7 @@ def index():
 def new_person():
     form = SQLFORM(db.people,
                    fields='name phone'.split())
-    if form.process(formname='new_person_form'):
+    if form.process(formname='new_person_form').accepted:
         session.flash = T('New person saved')
         db.commit() # need to avoid db locking in tests.
     return dict(form=form)
